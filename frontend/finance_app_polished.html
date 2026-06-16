@@ -1,0 +1,265 @@
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:var(--font-sans)}
+.shell{display:flex;height:720px;background:#F1EFE8;border-radius:16px;overflow:hidden}
+.side{width:216px;background:#161614;display:flex;flex-direction:column;flex-shrink:0;padding:0}
+.side-logo{padding:24px 20px 20px;font-size:15px;font-weight:500;color:#fff;display:flex;align-items:center;gap:8px;border-bottom:0.5px solid rgba(255,255,255,.08)}
+.side-logo i{font-size:18px;color:rgba(255,255,255,.5)}
+.side-section{padding:16px 12px 8px;font-size:10px;color:rgba(255,255,255,.28);letter-spacing:.08em;text-transform:uppercase;font-weight:500}
+.nav{display:flex;flex-direction:column;gap:2px;padding:0 12px}
+.nav-a{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;cursor:pointer;font-size:13px;color:rgba(255,255,255,.45);transition:all .12s}
+.nav-a:hover{color:rgba(255,255,255,.8);background:rgba(255,255,255,.06)}
+.nav-a.on{color:#fff;background:rgba(255,255,255,.11)}
+.nav-a i{font-size:16px;width:16px}
+.side-gap{flex:1}
+.side-user{margin:12px;padding:10px 12px;border-radius:10px;background:rgba(255,255,255,.06);display:flex;align-items:center;gap:10px;cursor:pointer}
+.side-user:hover{background:rgba(255,255,255,.1)}
+.u-avatar{width:30px;height:30px;border-radius:50%;background:#378ADD;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;color:#fff;flex-shrink:0}
+.u-name{font-size:12px;font-weight:500;color:#fff}
+.u-role{font-size:10px;color:rgba(255,255,255,.35)}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.topbar{height:60px;padding:0 24px;display:flex;align-items:center;justify-content:space-between;background:#F1EFE8;flex-shrink:0}
+.page-title{font-size:18px;font-weight:500;color:#2C2C2A}
+.topbar-right{display:flex;align-items:center;gap:8px}
+.tb-btn{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;border:0.5px solid rgba(0,0,0,.15);background:#fff;color:#2C2C2A;transition:all .12s}
+.tb-btn:hover{background:#F1EFE8}
+.tb-btn.dark{background:#161614;color:#fff;border-color:#161614}
+.tb-btn.dark:hover{background:#2C2C2A}
+.tb-btn i{font-size:14px}
+.scroll{flex:1;overflow-y:auto;padding:0 24px 24px}
+.scroll::-webkit-scrollbar{width:4px}
+.scroll::-webkit-scrollbar-track{background:transparent}
+.scroll::-webkit-scrollbar-thumb{background:rgba(0,0,0,.12);border-radius:4px}
+.pg{display:none}
+.pg.on{display:block}
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:16px}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:16px}
+.stat{border-radius:12px;padding:16px 18px}
+.stat.invert{background:#161614}
+.stat.white{background:#fff;border:0.5px solid rgba(0,0,0,.08)}
+.stat-lbl{font-size:11px;margin-bottom:6px}
+.stat-lbl.d{color:rgba(255,255,255,.4)}
+.stat-lbl.l{color:#888780}
+.stat-num{font-size:24px;font-weight:500}
+.stat-num.d{color:#fff}
+.stat-num.l{color:#2C2C2A}
+.stat-num.red{color:#A32D2D}
+.stat-chip{display:inline-flex;align-items:center;gap:4px;margin-top:8px;padding:3px 8px;border-radius:6px;font-size:11px}
+.stat-chip.up{background:#EAF3DE;color:#3B6D11}
+.stat-chip.dn{background:#FCEBEB;color:#A32D2D}
+.card{background:#fff;border:0.5px solid rgba(0,0,0,.08);border-radius:14px;padding:18px 20px}
+.card-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.card-ttl{font-size:14px;font-weight:500;color:#2C2C2A}
+.card-lnk{font-size:12px;color:#888780;cursor:pointer;display:flex;align-items:center;gap:3px}
+.card-lnk:hover{color:#2C2C2A}
+.card-lnk i{font-size:12px}
+.tx-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:0.5px solid rgba(0,0,0,.06)}
+.tx-row:last-child{border:none;padding-bottom:0}
+.tx-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;flex-shrink:0}
+.tx-info{flex:1;min-width:0}
+.tx-merchant{font-size:13px;font-weight:500;color:#2C2C2A;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tx-date{font-size:11px;color:#888780;margin-top:1px}
+.tx-amt{font-size:13px;font-weight:500;flex-shrink:0}
+.tx-amt.pos{color:#1D9E75}
+.tx-amt.neg{color:#2C2C2A}
+.tag{display:inline-block;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:500}
+.bbar-wrap{margin-bottom:12px}
+.bbar-hd{display:flex;justify-content:space-between;margin-bottom:5px}
+.bbar-name{font-size:12px;color:#2C2C2A}
+.bbar-meta{font-size:11px;color:#888780}
+.bbar-bg{height:6px;border-radius:3px;background:#F1EFE8}
+.bbar-fill{height:6px;border-radius:3px;transition:width .3s}
+.pot-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:0.5px solid rgba(0,0,0,.06)}
+.pot-row:last-child{border:none}
+.pot-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.pot-info{flex:1}
+.pot-name{font-size:13px;font-weight:500;color:#2C2C2A}
+.pot-prog{font-size:11px;color:#888780;margin-top:1px}
+.pot-amt{font-size:14px;font-weight:500;color:#2C2C2A}
+.bill-row{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:10px;margin-bottom:6px}
+.bill-row:last-child{margin:0}
+.bill-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.bill-name{font-size:13px;font-weight:500;color:#2C2C2A}
+.bill-due{font-size:11px;color:#888780;margin-top:1px}
+.bill-amt{font-size:13px;font-weight:500;margin-left:auto}
+.tbl-wrap{border-radius:14px;overflow:hidden;border:0.5px solid rgba(0,0,0,.08);background:#fff}
+.tbl-filt{display:flex;gap:8px;margin-bottom:16px}
+.filt-sel{padding:7px 12px;border-radius:8px;border:0.5px solid rgba(0,0,0,.12);background:#fff;font-size:12px;color:#2C2C2A;font-family:var(--font-sans);cursor:pointer}
+.tbl{width:100%;border-collapse:collapse;table-layout:fixed}
+.tbl th{font-size:11px;color:#888780;font-weight:500;text-align:left;padding:12px 16px;background:#F1EFE8;border-bottom:0.5px solid rgba(0,0,0,.08)}
+.tbl td{font-size:12px;padding:12px 16px;border-bottom:0.5px solid rgba(0,0,0,.06);color:#2C2C2A;vertical-align:middle}
+.tbl tr:last-child td{border:none}
+.tbl tr:hover td{background:#FAFAF8}
+.action-dots{cursor:pointer;color:#B4B2A9;font-size:16px;display:flex;align-items:center}
+.action-dots:hover{color:#2C2C2A}
+.bgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:16px}
+.bcard{background:#fff;border:0.5px solid rgba(0,0,0,.08);border-radius:14px;padding:16px 18px}
+.bcard-name{font-size:13px;font-weight:500;color:#2C2C2A;margin-bottom:4px}
+.bcard-nums{display:flex;justify-content:space-between;font-size:11px;color:#888780;margin-bottom:8px}
+.bcard-bar-bg{height:6px;border-radius:3px;background:#F1EFE8;margin-bottom:6px}
+.bcard-bar-fill{height:6px;border-radius:3px}
+.bcard-remain{font-size:11px}
+.pgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.pcard{background:#fff;border:0.5px solid rgba(0,0,0,.08);border-radius:14px;padding:16px 18px}
+.rcard{background:#fff;border:0.5px solid rgba(0,0,0,.08);border-radius:14px;padding:18px 20px;margin-bottom:16px}
+.donut-wrap{display:flex;align-items:center;gap:20px}
+.donut-legend{display:flex;flex-direction:column;gap:8px;flex:1}
+.leg-item{display:flex;align-items:center;justify-content:space-between;font-size:12px}
+.leg-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0;margin-right:8px}
+.leg-name{flex:1;color:#2C2C2A}
+.leg-val{color:#888780;font-weight:500}
+.login-wrap{display:flex;height:100%}
+.login-left{width:280px;background:#161614;padding:28px 24px;display:flex;flex-direction:column;flex-shrink:0}
+.login-left-logo{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:500;color:#fff;margin-bottom:auto}
+.login-left-logo i{font-size:18px;color:rgba(255,255,255,.4)}
+.login-left-text{margin-top:auto}
+.login-left h2{font-size:20px;font-weight:500;color:#fff;line-height:1.35;margin-bottom:10px}
+.login-left p{font-size:12px;color:rgba(255,255,255,.38);line-height:1.65}
+.login-right{flex:1;display:flex;align-items:center;justify-content:center;background:#F1EFE8}
+.login-card{background:#fff;border:0.5px solid rgba(0,0,0,.1);border-radius:16px;padding:32px;width:340px}
+.login-card h1{font-size:20px;font-weight:500;color:#2C2C2A;margin-bottom:24px}
+.lbl{display:block;font-size:12px;color:#444441;margin-bottom:6px}
+.inp{width:100%;padding:9px 12px;border:0.5px solid rgba(0,0,0,.15);border-radius:8px;font-size:13px;font-family:var(--font-sans);color:#2C2C2A;background:#fff;outline:none;transition:border .12s}
+.inp:focus{border-color:#161614}
+.inp-wrap{margin-bottom:16px}
+.login-btn{width:100%;padding:10px;background:#161614;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:var(--font-sans);transition:background .12s}
+.login-btn:hover{background:#2C2C2A}
+.login-foot{text-align:center;font-size:12px;color:#888780;margin-top:12px}
+.login-foot a{color:#161614;cursor:pointer;font-weight:500}
+</style>
+
+<h2 class="sr-only">Personal finance dashboard — login, overview, transactions, budgets, pots, reports</h2>
+
+<div class="shell" id="shell">
+
+<div class="side" id="sidebar" style="display:none">
+  <div class="side-logo"><i class="ti ti-chart-pie-2" aria-hidden="true"></i>finance</div>
+  <div class="side-section">Menu</div>
+  <div class="nav">
+    <div class="nav-a on" data-p="overview" onclick="nav(this)"><i class="ti ti-home" aria-hidden="true"></i>Overview</div>
+    <div class="nav-a" data-p="transactions" onclick="nav(this)"><i class="ti ti-arrows-transfer-up" aria-hidden="true"></i>Transactions</div>
+    <div class="nav-a" data-p="budgets" onclick="nav(this)"><i class="ti ti-calculator" aria-hidden="true"></i>Budgets</div>
+    <div class="nav-a" data-p="pots" onclick="nav(this)"><i class="ti ti-coin" aria-hidden="true"></i>Pots</div>
+    <div class="nav-a" data-p="reports" onclick="nav(this)"><i class="ti ti-chart-bar" aria-hidden="true"></i>Reports</div>
+  </div>
+  <div class="side-gap"></div>
+  <div class="side-user" onclick="logout()">
+    <div class="u-avatar">AA</div>
+    <div><div class="u-name">Aarya A.</div><div class="u-role">Personal account</div></div>
+    <i class="ti ti-logout" style="font-size:14px;color:rgba(255,255,255,.25);margin-left:auto" aria-hidden="true"></i>
+  </div>
+</div>
+
+<div style="flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0">
+
+<div id="loginView" style="flex:1;display:flex">
+  <div class="login-left">
+    <div class="login-left-logo"><i class="ti ti-chart-pie-2" aria-hidden="true"></i>finance</div>
+    <div class="login-left-text">
+      <h2>Keep track of your money and save for your future</h2>
+      <p>Personal finance puts you in control of spending. Track transactions, set budgets, and grow savings pots easily.</p>
+    </div>
+  </div>
+  <div class="login-right">
+    <div class="login-card">
+      <h1>Login</h1>
+      <div class="inp-wrap"><label class="lbl">Email</label><input class="inp" type="email" placeholder="you@example.com"/></div>
+      <div class="inp-wrap"><label class="lbl">Password</label><input class="inp" type="password" placeholder="••••••••"/></div>
+      <button class="login-btn" onclick="doLogin()">Login</button>
+      <div class="login-foot">Need an account? <a onclick="doLogin()">Sign Up</a></div>
+    </div>
+  </div>
+</div>
+
+<div id="dashView" style="display:none;flex:1;flex-direction:column;overflow:hidden">
+  <div class="topbar">
+    <div class="page-title" id="pgTitle">Overview</div>
+    <div class="topbar-right">
+      <button class="tb-btn" onclick="sendPrompt('Analyse my spending and give me saving tips')"><i class="ti ti-sparkles" aria-hidden="true"></i>Ask AI ↗</button>
+      <button class="tb-btn dark" id="addBtn" onclick="sendPrompt('Add a new expense transaction')"><i class="ti ti-plus" aria-hidden="true"></i>Add new</button>
+    </div>
+  </div>
+
+  <div class="scroll">
+
+    <div class="pg on" id="pg-overview" style="padding-top:8px">
+      <div class="g3">
+        <div class="stat invert">
+          <div class="stat-lbl d">Current balance</div>
+          <div class="stat-num d">$4,836.00</div>
+          <div class="stat-chip up"><i class="ti ti-trending-up" style="font-size:11px" aria-hidden="true"></i>+8.2% vs last month</div>
+        </div>
+        <div class="stat white">
+          <div class="stat-lbl l">Income</div>
+          <div class="stat-num l">$3,814.25</div>
+          <div class="stat-chip up"><i class="ti ti-trending-up" style="font-size:11px" aria-hidden="true"></i>+12%</div>
+        </div>
+        <div class="stat white">
+          <div class="stat-lbl l">Expenses</div>
+          <div class="stat-num red">$1,700.50</div>
+          <div class="stat-chip dn"><i class="ti ti-trending-up" style="font-size:11px" aria-hidden="true"></i>+5% vs last month</div>
+        </div>
+      </div>
+
+      <div class="g2">
+        <div class="card">
+          <div class="card-hd"><span class="card-ttl">Recent transactions</span><span class="card-lnk" onclick="nav(document.querySelector('[data-p=transactions]'))">View all <i class="ti ti-arrow-right" aria-hidden="true"></i></span></div>
+          <div class="tx-row"><div class="tx-av" style="background:#E1F5EE;color:#0F6E56">ER</div><div class="tx-info"><div class="tx-merchant">Emma Richardson</div><div class="tx-date">19 Aug 2024</div></div><span class="tx-amt pos">+$75.50</span></div>
+          <div class="tx-row"><div class="tx-av" style="background:#FAEEDA;color:#633806">SB</div><div class="tx-info"><div class="tx-merchant">Savory Bites Bistro</div><div class="tx-date">19 Aug 2024</div></div><span class="tx-amt neg">-$55.50</span></div>
+          <div class="tx-row"><div class="tx-av" style="background:#EEEDFE;color:#3C3489">DC</div><div class="tx-info"><div class="tx-merchant">Daniel Carter</div><div class="tx-date">18 Aug 2024</div></div><span class="tx-amt neg">-$42.30</span></div>
+          <div class="tx-row"><div class="tx-av" style="background:#EAF3DE;color:#27500A">SP</div><div class="tx-info"><div class="tx-merchant">Sun Park</div><div class="tx-date">17 Aug 2024</div></div><span class="tx-amt pos">+$120.00</span></div>
+          <div class="tx-row"><div class="tx-av" style="background:#FCEBEB;color:#791F1F">UH</div><div class="tx-info"><div class="tx-merchant">Urban Services Hub</div><div class="tx-date">17 Aug 2024</div></div><span class="tx-amt neg">-$65.00</span></div>
+        </div>
+        <div class="card">
+          <div class="card-hd"><span class="card-ttl">Budgets</span><span class="card-lnk" onclick="nav(document.querySelector('[data-p=budgets]'))">See details <i class="ti ti-arrow-right" aria-hidden="true"></i></span></div>
+          <div style="display:flex;align-items:center;gap:16px">
+            <div style="position:relative;width:110px;height:110px;flex-shrink:0">
+              /* Lines 217-222 omitted */
+            </div>
+            <div style="flex:1">
+              /* Lines 224-228 omitted */
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="g2">
+        <div class="card">
+          <div class="card-hd"><span class="card-ttl">Pots</span><span class="card-lnk" onclick="nav(document.querySelector('[data-p=pots]'))">See details <i class="ti ti-arrow-right" aria-hidden="true"></i></span></div>
+          <div class="pot-row"><div class="pot-icon" style="background:#EAF3DE"><i class="ti ti-piggy-bank" style="color:#3B6D11" aria-hidden="true"></i></div><div class="pot-info"><div class="pot-name">Savings</div><div class="pot-prog">$159 of $500</div></div><span class="pot-amt">$159</span></div>
+          <div class="pot-row"><div class="pot-icon" style="background:#FAEEDA"><i class="ti ti-gift" style="color:#854F0B" aria-hidden="true"></i></div><div class="pot-info"><div class="pot-name">Gift fund</div><div class="pot-prog">$40 of $150</div></div><span class="pot-amt">$40</span></div>
+          <div class="pot-row"><div class="pot-icon" style="background:#E6F1FB"><i class="ti ti-music" style="color:#185FA5" aria-hidden="true"></i></div><div class="pot-info"><div class="pot-name">Concert ticket</div><div class="pot-prog">$110 of $200</div></div><span class="pot-amt">$110</span></div>
+          <div class="pot-row"><div class="pot-icon" style="background:#EEEDFE"><i class="ti ti-device-laptop" style="color:#534AB7" aria-hidden="true"></i></div><div class="pot-info"><div class="pot-name">New laptop</div><div class="pot-prog">$10 of $1,200</div></div><span class="pot-amt">$10</span></div>
+        </div>
+        <div class="card">
+          <div class="card-hd"><span class="card-ttl">Recurring bills</span></div>
+          <div class="bill-row" style="background:#EAF3DE"><div class="bill-icon" style="background:#C0DD97"><i class="ti ti-check" style="color:#27500A" aria-hidden="true"></i></div><div><div class="bill-name" style="color:#27500A">Paid bills</div><div class="bill-due" style="color:#3B6D11">All caught up</div></div><span class="bill-amt" style="color:#27500A">$190.00</span></div>
+          <div class="bill-row" style="background:#FAEEDA"><div class="bill-icon" style="background:#FAC775"><i class="ti ti-clock" style="color:#633806" aria-hidden="true"></i></div><div><div class="bill-name" style="color:#633806">Total upcoming</div><div class="bill-due" style="color:#854F0B">Next 7 days</div></div><span class="bill-amt" style="color:#633806">$194.98</span></div>
+          <div class="bill-row" style="background:#FCEBEB"><div class="bill-icon" style="background:#F7C1C1"><i class="ti ti-alert-triangle" style="color:#791F1F" aria-hidden="true"></i></div><div><div class="bill-name" style="color:#791F1F">Due soon</div><div class="bill-due" style="color:#A32D2D">Pay within 2 days</div></div><span class="bill-amt" style="color:#791F1F">$59.98</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pg" id="pg-transactions" style="padding-top:8px">
+      <div class="tbl-filt">
+        <select class="filt-sel"><option>All categories</option><option>Food</option><option>Entertainment</option><option>Utilities</option><option>Health</option><option>Transport</option></select>
+        <select class="filt-sel"><option>This month</option><option>Last month</option><option>Last 3 months</option></select>
+        <select class="filt-sel"><option>All types</option><option>Expense</option><option>Income</option></select>
+      </div>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th style="width:34%">Merchant</th><th style="width:22%">Category</th><th style="width:20%">Date</th><th style="width:18%;text-align:right">Amount</th><th style="width:6%"></th></tr></thead>
+          <tbody>
+            <tr><td><div style="display:flex;align-items:center;gap:10px"><div class="tx-av" style="width:30px;height:30px;font-size:11px;background:#FAEEDA;color:#633806">SB</div>Savory Bites Bistro</div></td><td><span class="tag" style="background:#EAF3DE;color:#27500A">Food</span></td><td style="color:#888780">19 Aug 2024</td><td style="text-align:right;color:#A32D2D;font-weight:500">-$55.50</td><td><div class="action-dots"><i class="ti ti-dots" aria-label="Options"></i></div></td></tr>
+            <tr><td><div style="display:flex;align-items:center;gap:10px"><div class="tx-av" style="width:30px;height:30px;font-size:11px;background:#FCEBEB;color:#791F1F">UH</div>Urban Services Hub</div></td><td><span class="tag" style="background:#FAEEDA;color:#633806">Utilities</span></td><td style="color:#888780">17 Aug 2024</td><td style="text-align:right;color:#A32D2D;font-weight:500">-$65.00</td><td><div class="action-dots"><i class="ti ti-dots" aria-label="Options"></i></div></td></tr>
+            /* Lines 262-267 omitted */
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="pg" id="pg-budgets" style="padding-top:8px">
+      <div class="bgrid">
+        <div class="bcard"><div class="bcard-name">Entertainment</div><div class="bcard-nums"><span>Spent $35</span><span>Limit $50</span></div><div class="bcard-bar-bg"><div class="bcard-bar-fill" style="width:70%;background:#185FA5"></div></div><div class="bcard-remain" style="color:#3B6D11">$15.00 remaining</div></div>
+        <div class="bcard"><div class="bcard-name">Bills</div><div class="bcard-nums"><span>Spent $412</span><span>Limit $750</span></div><div class="bcard-bar-bg"><div class="bcard-bar-fill" style="width:55%;background:#3B6D11"></div></div><div class="bcard-remain" style="color:#3B6D11">$338.00 remaining</div></div>
+            
+*** End OF FILE
